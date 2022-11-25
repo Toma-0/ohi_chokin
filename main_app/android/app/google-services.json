@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "199550756345",
+    "project_id": "moneytoma-0",
+    "storage_bucket": "moneytoma-0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199550756345:android:a25513fff71993d03f0928",
+        "android_client_info": {
+          "package_name": "com.example.main_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199550756345-04k2l09btsntv5o2ocu254fabpkbep9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk_nrcdus6_J97wyqbuwkBNcOeoCk8N6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199550756345-04k2l09btsntv5o2ocu254fabpkbep9b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199550756345-p1nb2lv5josc8bbmdtn55lcmsv5ak8u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.moneyForPrecious"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199550756345:android:20b8772aa0ac56aa3f0928",
+        "android_client_info": {
+          "package_name": "com.example.money_for_precious"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199550756345-04k2l09btsntv5o2ocu254fabpkbep9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk_nrcdus6_J97wyqbuwkBNcOeoCk8N6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199550756345-04k2l09btsntv5o2ocu254fabpkbep9b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199550756345-p1nb2lv5josc8bbmdtn55lcmsv5ak8u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.moneyForPrecious"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
