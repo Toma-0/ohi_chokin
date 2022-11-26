@@ -5,6 +5,7 @@
     "storage_bucket": "moneytoma-0.appspot.com"
   },
   "client": [
+    
     {
       "client_info": {
         "mobilesdk_app_id": "1:199550756345:android:20b8772aa0ac56aa3f0928",

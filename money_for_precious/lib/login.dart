@@ -11,6 +11,7 @@ class Login extends StatefulWidget {
 }
 
 class _Login extends State<Login> {
+  FirebaseDatabase database = FirebaseDatabase.instance;
   String newUserEmail = "";
   // 入力されたパスワード
   String newUserPassword = "";
@@ -110,7 +111,6 @@ class _Login extends State<Login> {
   void newDate(Oshi) {
     final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
     DatabaseReference postListRef = FirebaseDatabase.instance.ref("users");
-    //DatabaseReference newPostRef = postListRef.push();
     postListRef.set({
       userID: {
         "OshiFile":{
