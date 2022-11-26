@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class SyukkinPage extends StatelessWidget {
   @override
@@ -32,4 +34,16 @@ class SyukkinPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void newDate(Oshi, title) {
+  final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
+  DatabaseReference postListRef = FirebaseDatabase.instance
+      .ref("users/" + userID + "/" + Oshi + "/syukkin");
+  //DatabaseReference newPostRef = postListRef.push();
+  postListRef.set(
+    {
+      title: {"data": 10.12, "how_money": "何円引き出すのか", "title": "何に引き出すのか"}
+    },
+  );
 }

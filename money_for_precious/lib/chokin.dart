@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dentak.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dentaku.dart';
 import 'button.dart';
 
 class ChokinPage extends StatelessWidget {
@@ -52,4 +54,19 @@ class ChokinPage extends StatelessWidget {
       ),
     );
   }
+}
+
+void newDate(Oshi, title) {
+  final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
+  DatabaseReference postListRef =
+      FirebaseDatabase.instance.ref("users/" + userID + "/" + Oshi + "/chokin");
+  //DatabaseReference newPostRef = postListRef.push();
+  postListRef.set({
+    title: {
+      "data": 10.12,
+      "detale": "推しが尊かった理由の詳細",
+      "how_money": 1000,
+      "title": "推しが尊かった理由"
+    }
+  });
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingPage extends StatelessWidget {
   @override
@@ -24,7 +26,6 @@ class SettingPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
-        title: Text("次のページ"),
       ),
       body: Container(
         height: double.infinity,
@@ -33,3 +34,23 @@ class SettingPage extends StatelessWidget {
     );
   }
 }
+
+void newDate(Oshi) {
+    final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
+    DatabaseReference postListRef = FirebaseDatabase.instance.ref("users");
+    //DatabaseReference newPostRef = postListRef.push();
+    postListRef.set({
+      userID: {
+        "deta_count":1,
+        "OshiFile":{
+        Oshi: {
+          "Target": 10000,
+          "color": "green",
+          "icon": "heart",
+          "money": 0,
+          "name": "推しの名前",
+        }
+        }
+      }
+    });
+  }

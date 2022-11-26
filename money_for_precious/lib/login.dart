@@ -3,37 +3,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
-import 'login.dart';
+import 'main.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class Login extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyAuthPage(),
-    );
-  }
+  _Login createState() => _Login();
 }
 
-class MyAuthPage extends StatefulWidget {
-  @override
-  _MyAuthPage createState() => _MyAuthPage();
-}
-
-class _MyAuthPage extends State<MyAuthPage> {
+class _Login extends State<Login> {
   String newUserEmail = "";
   // 入力されたパスワード
   String newUserPassword = "";
+
+  String newUserOshi = "";
+
   // 入力されたメールアドレス（ログイン）
   String loginUserEmail = "";
   // 入力されたパスワード（ログイン）
@@ -51,51 +34,60 @@ class _MyAuthPage extends State<MyAuthPage> {
             children: <Widget>[
               const SizedBox(height: 32),
               TextFormField(
-                decoration: InputDecoration(labelText: "メールアドレス"),
+                decoration: InputDecoration(labelText: "メールアドレス"),  
                 onChanged: (String value) {
                   setState(() {
-                    loginUserEmail = value;
+                    newUserEmail = value;
                   });
                 },
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: "パスワード"),
+                decoration: InputDecoration(labelText: "パスワード（６文字以上）"),
+                // パスワードが見えないようにする
                 obscureText: true,
                 onChanged: (String value) {
                   setState(() {
-                    loginUserPassword = value;
+                    newUserPassword = value;
                   });
                 },
               ),
-              const SizedBox(height: 8),
+              TextField(
+                decoration: InputDecoration(labelText: "最初に登録する推しの名前"),
+                onChanged: (String value) {
+                  setState(() {
+                    newUserOshi = value;
+                  });
+                },
+              ),
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    // メール/パスワードでログイン
+                    // メール/パスワードでユーザー登録
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     final UserCredential result =
-                        await auth.signInWithEmailAndPassword(
-                      email: loginUserEmail,
-                      password: loginUserPassword,
+                        await auth.createUserWithEmailAndPassword(
+                      email: newUserEmail,
+                      password: newUserPassword,
                     );
-                    // ログインに成功した場合
+
+                    // 登録したユーザー情報
                     final User user = result.user!;
                     setState(() {
-                      infoText = "ログインOK：${user.email}";
+                      infoText = "登録OK：${user.email}";
                     });
-                    
+                    newDate(newUserOshi);
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Home()),
                     );
                   } catch (e) {
-                    // ログインに失敗した場合
+                    // 登録に失敗した場合
                     setState(() {
-                      infoText = "ログインNG：${e.toString()}";
+                      infoText = "登録NG：${e.toString()}";
                     });
                   }
                 },
-                child: Text("ログイン"),
+                child: Text("ユーザー登録"),
               ),
               const SizedBox(height: 8),
               Text(infoText),
@@ -104,14 +96,34 @@ class _MyAuthPage extends State<MyAuthPage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => Login()),
+                      MaterialPageRoute(builder: (context) => MyApp()),
                     );
                   },
-                  child: Text("ユーザー登録はこちら"))
+                  child: Text("ログインはこちら")),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void newDate(Oshi) {
+    final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
+    DatabaseReference postListRef = FirebaseDatabase.instance.ref("users");
+    //DatabaseReference newPostRef = postListRef.push();
+    postListRef.set({
+      userID: {
+        "OshiFile":{
+          "deta_count":0,
+        0: {
+          "name":Oshi,
+          "Target": 10000,
+          "color": Colors.blue.withOpacity(0.6),
+          "icon": Icons.beach_access,
+          "money": 0,
+        }
+        }
+      }
+    });
   }
 }

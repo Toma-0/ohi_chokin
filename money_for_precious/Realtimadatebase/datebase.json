@@ -1,0 +1,20 @@
+{
+    "oshi": {
+      "Target": 10000,
+      "color": "green",
+      "icon": "heart",
+      "money": 3000,
+      "name": "推しの名前",
+      "chokin": {
+        "data": 10.12,
+        "detale": "推しが尊かった理由の詳細",
+        "how_money": 1000,
+        "title": "推しが尊かった理由"
+      },
+      "syukkin": {
+        "data": 10.12,
+        "how_money": "何円引き出すのか",
+        "title": "何に引き出すのか"
+      }
+    }
+}

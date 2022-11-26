@@ -1,128 +1,100 @@
-import 'dart:math' as math;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // システムバー・ナビゲーションバーの色
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarDividerColor: Colors.grey,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
     return MaterialApp(
-      debugShowCheckedModeBanner: false, // DEBUGバナー削除
-      title: 'Wave Animation',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: WaveView(),
+      home: MyAuthPage(),
     );
   }
 }
 
-class WaveView extends StatefulWidget {
+class MyAuthPage extends StatefulWidget {
   @override
-  _WaveViewState createState() => _WaveViewState();
+  _MyAuthPageState createState() => _MyAuthPageState();
 }
 
-class _WaveViewState extends v {
-  late AnimationController waveController; // AnimationControllerの宣言
-  static const darkBlue = Color.fromARGB(255, 131, 132, 133); // 波の色
-
-  @override
-  void initState() {
-    waveController = AnimationController(
-      duration: const Duration(seconds: 3), // アニメーションの間隔を3秒に設定
-      vsync: this, // おきまり
-    )..repeat(); // リピート設定
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    waveController.dispose(); // AnimationControllerは明示的にdisposeする。
-    super.dispose();
-  }
+class _MyAuthPageState extends State<MyAuthPage> {
+  // 入力されたメールアドレス
+  String newUserEmail = "";
+  // 入力されたパスワード
+  String newUserPassword = "";
+  // 登録・ログインに関する情報を表示
+  String infoText = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        clipBehavior: Clip.antiAlias,
-      decoration:BoxDecoration(
-        shape: BoxShape.circle,
-      color: Colors.white,
-      ),
-      child:AnimatedBuilder(
-        animation: waveController, // waveControllerを設定
-        builder: (context, child) => Stack(
-          children: <Widget>[
-            // 1つ目の波
-            ClipPath(
-              child: Container(color: darkBlue),
-              clipper: WaveClipper(context, waveController.value, 0),
-            ),
-            // 2つ目の波
-            ClipPath(
-              child: Container(color: darkBlue.withOpacity(0.6)),
-              clipper: WaveClipper(context, waveController.value, 0.5),
-            ),
-          ],
-        ),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(32),
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                // テキスト入力のラベルを設定
+                decoration: InputDecoration(labelText: "メールアドレス"),
+                onChanged: (String value) {
+                  setState(() {
+                    newUserEmail = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                decoration: InputDecoration(labelText: "パスワード（６文字以上）"),
+                // パスワードが見えないようにする
+                obscureText: true,
+                onChanged: (String value) {
+                  setState(() {
+                    newUserPassword = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    // メール/パスワードでユーザー登録
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    final UserCredential result =
+                        await auth.createUserWithEmailAndPassword(
+                      email: newUserEmail,
+                      password: newUserPassword,
+                    );
+
+                    // 登録したユーザー情報
+                    final User user = result.user!;
+                    setState(() {
+                      infoText = "登録OK：${user.email}";
+                    });
+                  } catch (e) {
+                    // 登録に失敗した場合
+                    setState(() {
+                      infoText = "登録NG：${e.toString()}";
+                    });
+                  }
+                },
+                child: Text("ユーザー登録"),
+              ),
+              const SizedBox(height: 8),
+              Text(infoText)
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-class WaveClipper extends CustomClipper<Path> {
-  WaveClipper(this.context, this.waveControllerValue, this.offset) {
-    final width = MediaQuery.of(context).size.width; // 画面の横幅
-    final height = MediaQuery.of(context).size.height; // 画面の高さ
-    
-
-    // coordinateListに波の座標を追加
-    for (var i = 0; i <= width / 3; i++) {
-      final step = (i / width) - waveControllerValue;
-      coordinateList.add(
-        Offset(
-          i.toDouble() * 3, // X座標
-          height*0.5-math.sin(step * 2 * math.pi - offset) * 45,// Y座標
-        ),
-      );
-
-    
-    }
-  }
-
-  final BuildContext context;
-  final double waveControllerValue; // waveController.valueの値
-  final double offset; // 波のずれ
-  final List<Offset> coordinateList = []; // 波の座標のリスト
-
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      // addPolygon: coordinateListに入っている座標を直線で結ぶ。
-      //             false -> 最後に始点に戻らない
-      ..addPolygon(coordinateList, false)
-      ..lineTo(size.width, 0.0) // 画面右下へ
-      ..lineTo(0, 0.0) // 画面左下へ
-      ..close(); // 始点に戻る
-    return path;
-  }
-
-  // 再クリップするタイミング -> animationValueが更新されていたとき
-  @override
-  bool shouldReclip(WaveClipper oldClipper) =>
-      waveControllerValue != oldClipper.waveControllerValue;
 }
