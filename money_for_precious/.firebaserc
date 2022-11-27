@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "moneytoma-0",
+    "staging": "moneytoma-0"
+  },
+  "targets": {},
+  "etags": {}
+}

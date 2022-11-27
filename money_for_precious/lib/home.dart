@@ -15,6 +15,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class Home extends StatefulWidget {
+  Home();
   @override
   _Home createState() => _Home();
 }
@@ -50,6 +51,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
   }
 
   Widget creatCard(name, icon, c, BuildContext context) {
+    print("test");
     SizeConfig().init(context);
     return TextButton(
       style: TextButton.styleFrom(),
@@ -66,10 +68,10 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
           width: SizeConfig.bw * 17,
           height: SizeConfig.bh * 5,
           child: Stack(children: [
-            Icon(
-              icon,
-              color: c,
-              size: 36.0,
+            ColorFiltered(
+              colorFilter:
+                  ColorFilter.mode(Color(int.parse(c)), BlendMode.colorBurn),
+              child: Image.asset('images/oshi$icon.PNG'),
             ),
             Center(
               child: Padding(
@@ -87,6 +89,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     int i = 0;
     SizeConfig().init(context);
     ReadDate();
+    print(l_name);
     return Container(
       height: SizeConfig.bh * 22,
       width: SizeConfig.bw * 90,
@@ -130,26 +133,39 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
     final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
     DatabaseReference postListRef_num =
         FirebaseDatabase.instance.ref(userID + "OshiFile");
-    postListRef_num.onValue.listen((DatabaseEvent event) {
+
+        
+    postListRef_num.onValue.listen((event) {
+      final data = event.snapshot.value;
       for (final child in event.snapshot.children) {
         int count = event.snapshot.child("deta_count").value as int;
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i <= count; i++) {
           DatabaseReference postListRef = FirebaseDatabase.instance
               .ref(userID + "/OshiFile/" + i.toString());
           //DatabaseReference newPostRef = postListRef.push();
           postListRef.onValue.listen((DatabaseEvent event) {
             for (final child in event.snapshot.children) {
               String name = event.snapshot.child("name").value as String;
-              l_name.insert(i, name);
+              setState(() {
+                l_name.insert(i, name);
+              });
               int Target = event.snapshot.child("Target").value as int;
-              l_Target.insert(i, Target);
+              setState(() {
+                l_Target.insert(i, Target);
+              });
               String color = event.snapshot.child("color").value as String;
-              l_color.insert(i, color);
-              String icon = event.snapshot.child("icon").value as String;
-              l_icon.insert(i, icon);
+              setState(() {
+                l_color.insert(i, color);
+              });
+              int icon = event.snapshot.child("icon").value as int;
+              setState(() {
+                l_icon.insert(i, icon);
+              });
               int money = event.snapshot.child("money").value as int;
-              l_money.insert(i, money);
+              setState(() {
+                l_money.insert(i, money);
+              });
             }
           }, onError: (error) {
             // Error.
@@ -194,7 +210,7 @@ class _Home extends State<Home> with SingleTickerProviderStateMixin {
               Padding(
                 padding: EdgeInsets.only(top: SizeConfig.bh * 2),
               ),
-              if (isVisible == true) nomal(context),
+              nomal(context),
             ],
           ),
         ),

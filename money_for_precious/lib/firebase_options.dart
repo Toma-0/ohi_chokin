@@ -49,6 +49,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '199550756345',
     projectId: 'moneytoma-0',
     authDomain: 'moneytoma-0.firebaseapp.com',
+    databaseURL: 'https://moneytoma-0-default-rtdb.firebaseio.com',
     storageBucket: 'moneytoma-0.appspot.com',
     measurementId: 'G-DGWFY45BX6',
   );
@@ -58,6 +59,7 @@ class DefaultFirebaseOptions {
     appId: '1:199550756345:android:20b8772aa0ac56aa3f0928',
     messagingSenderId: '199550756345',
     projectId: 'moneytoma-0',
+    databaseURL: 'https://moneytoma-0-default-rtdb.firebaseio.com',
     storageBucket: 'moneytoma-0.appspot.com',
   );
 
@@ -66,6 +68,7 @@ class DefaultFirebaseOptions {
     appId: '1:199550756345:ios:2ee5418b33f106673f0928',
     messagingSenderId: '199550756345',
     projectId: 'moneytoma-0',
+    databaseURL: 'https://moneytoma-0-default-rtdb.firebaseio.com',
     storageBucket: 'moneytoma-0.appspot.com',
     iosClientId: '199550756345-p1nb2lv5josc8bbmdtn55lcmsv5ak8u9.apps.googleusercontent.com',
     iosBundleId: 'com.example.moneyForPrecious',
@@ -76,6 +79,7 @@ class DefaultFirebaseOptions {
     appId: '1:199550756345:ios:2ee5418b33f106673f0928',
     messagingSenderId: '199550756345',
     projectId: 'moneytoma-0',
+    databaseURL: 'https://moneytoma-0-default-rtdb.firebaseio.com',
     storageBucket: 'moneytoma-0.appspot.com',
     iosClientId: '199550756345-p1nb2lv5josc8bbmdtn55lcmsv5ak8u9.apps.googleusercontent.com',
     iosBundleId: 'com.example.moneyForPrecious',

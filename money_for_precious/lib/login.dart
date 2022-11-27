@@ -111,6 +111,7 @@ class _Login extends State<Login> {
   void newDate(Oshi) {
     final userID = FirebaseAuth.instance.currentUser?.uid ?? '';
     DatabaseReference postListRef = FirebaseDatabase.instance.ref("users");
+    DatabaseReference newPostRef = postListRef.push();
     postListRef.set({
       userID: {
         "OshiFile":{
@@ -118,8 +119,8 @@ class _Login extends State<Login> {
         0: {
           "name":Oshi,
           "Target": 10000,
-          "color": Colors.blue.withOpacity(0.6),
-          "icon": Icons.beach_access,
+          "color": "Colors.blue.withOpacity(0.6)",
+          "icon": 0,
           "money": 0,
         }
         }

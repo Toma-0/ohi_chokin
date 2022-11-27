@@ -1,13 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 import 'login.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp();
+  } catch (e) {}
   runApp(MyApp());
 }
 
@@ -83,7 +86,7 @@ class _MyAuthPage extends State<MyAuthPage> {
                     setState(() {
                       infoText = "ログインOK：${user.email}";
                     });
-                    
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => Home()),
